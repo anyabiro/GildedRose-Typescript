@@ -73,4 +73,82 @@ describe('Unit tests', function () {
         });
     });
 
+    describe('Backstage passes to a TAFKAL80ETC concert', function () {
+        it('Backstage passes Quality increase normally after one day', function() {
+            const gildedRose = new GildedRose([ new Item('Backstage passes to a TAFKAL80ETC concert', 15, 10) ]);
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(11);
+            expect(items[0].sellIn).to.equal(14);
+        });
+
+        it('Backstage passes Quality increase faster after one day', function() {
+            const gildedRose = new GildedRose([ new Item('Backstage passes to a TAFKAL80ETC concert', 10, 10) ]);
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(12);
+            expect(items[0].sellIn).to.equal(9);
+        });
+
+        it('Backstage passes Quality increase the fastest after one day', function() {
+            const gildedRose = new GildedRose([ new Item('Backstage passes to a TAFKAL80ETC concert', 5, 10) ]);
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(13);
+            expect(items[0].sellIn).to.equal(4);
+        });
+
+        it('Backstage passes Quality increase normally after three day', function() {
+            const gildedRose = new GildedRose([ new Item('Backstage passes to a TAFKAL80ETC concert', 15, 10) ]);
+            gildedRose.updateQuality();
+            gildedRose.updateQuality();
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(13);
+            expect(items[0].sellIn).to.equal(12);
+        });
+
+        it('Backstage passes Quality increase faster after three day', function() {
+            const gildedRose = new GildedRose([ new Item('Backstage passes to a TAFKAL80ETC concert', 10, 10) ]);
+            gildedRose.updateQuality();
+            gildedRose.updateQuality();
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(16);
+            expect(items[0].sellIn).to.equal(7);
+        });
+
+        it('Backstage passes Quality increase the fastest after three day', function() {
+            const gildedRose = new GildedRose([ new Item('Backstage passes to a TAFKAL80ETC concert', 5, 10) ]);
+            gildedRose.updateQuality();
+            gildedRose.updateQuality();
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(19);
+            expect(items[0].sellIn).to.equal(2);
+        });
+
+        it('Backstage passes Quality goes to 0 after sell date ', function() {
+            const gildedRose = new GildedRose([ new Item('Backstage passes to a TAFKAL80ETC concert', 0, 10) ]);
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(0);
+            expect(items[0].sellIn).to.equal(-1);
+        });
+
+        it('Backstage passes Quality normal increase doesn\'t go past max', function() {
+            const gildedRose = new GildedRose([ new Item('Backstage passes to a TAFKAL80ETC concert', 15, 50) ]);
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(50);
+            expect(items[0].sellIn).to.equal(14);
+        });
+
+        it('Backstage passes Quality fast increase doesn\'t go past max', function() {
+            const gildedRose = new GildedRose([ new Item('Backstage passes to a TAFKAL80ETC concert', 10, 50) ]);
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(50);
+            expect(items[0].sellIn).to.equal(9);
+        });
+
+        it('Backstage passes Quality fastest increase doesn\'t go past max', function() {
+            const gildedRose = new GildedRose([ new Item('Backstage passes to a TAFKAL80ETC concert', 5, 49) ]);
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(50);
+            expect(items[0].sellIn).to.equal(4);
+        });
+    });
+
 });
