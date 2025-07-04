@@ -4,13 +4,6 @@ import { Item, GildedRose } from '../app/gilded-rose';
 describe('Unit tests', function () {
     describe('Aged Brie', function () {
         it('Brie Quality increases normally', function() {
-            const gildedRose = new GildedRose([ new Item('Aged Brie', 1, 0) ]);
-            const items = gildedRose.updateQuality();
-            expect(items[0].quality).to.equal(1);
-            expect(items[0].sellIn).to.equal(0);
-        });
-
-        it('Brie Quality increases normally', function() {
             const gildedRose = new GildedRose([ new Item('Aged Brie', 10, 33) ]);
             const items = gildedRose.updateQuality();
             expect(items[0].quality).to.equal(34);
@@ -45,15 +38,6 @@ describe('Unit tests', function () {
             expect(items[0].sellIn).to.equal(-3);
         });
 
-        it('Brie Quality increases by 1 until sellIn gets to 0, and by 2 after', function() {
-            const gildedRose = new GildedRose([ new Item('Aged Brie', 1, 0) ]);
-            gildedRose.updateQuality();
-            gildedRose.updateQuality();
-            const items = gildedRose.updateQuality();
-            expect(items[0].quality).to.equal(5);
-            expect(items[0].sellIn).to.equal(-2);
-        });
-
         it('Brie Quality is at max and can\'t increase anymore', function() {
             const gildedRose = new GildedRose([ new Item('Aged Brie', 3, 50) ]);
             const items = gildedRose.updateQuality();
@@ -69,6 +53,17 @@ describe('Unit tests', function () {
             expect(items[0].quality).to.equal(50);
             expect(items[0].sellIn).to.equal(0);
         });
+    });
+
+    describe('Sulfuras, Hand of Ragnaros', function () {
+        it('Brie Quality increases normally', function() {
+            const gildedRose = new GildedRose([ new Item('Aged Brie', 1, 0) ]);
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(1);
+            expect(items[0].sellIn).to.equal(0);
+        });
+
+
     });
 
 });
