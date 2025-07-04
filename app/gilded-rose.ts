@@ -25,47 +25,44 @@ export class GildedRose {
                 continue;
             }
 
+            item.sellIn--;
+
             if (item.name == 'Aged Brie') {
-                this.updateBrieQuality(item);
-            } else if (item.name == 'Backstage passes to a TAFKAL80ETC concert') {
-                if (item.quality < 50) {
-                    item.quality++;
-                    if (item.name == 'Backstage passes to a TAFKAL80ETC concert') {
-                        if (item.sellIn < 11) {
-                            if (item.quality < 50) {
-                                item.quality = item.quality + 1
-                            }
-                        }
-                        if (item.sellIn < 6) {
-                            if (item.quality < 50) {
-                                item.quality = item.quality + 1
-                            }
-                        }
-                    }
+                this.increaseQuality(item);
+                if (item.sellIn < 0) {  // Sell date has passed
+                    this.increaseQuality(item);
                 }
-            } else {
-                this.decreaseQuality(item);
+                continue;
             }
 
-            item.sellIn = item.sellIn - 1;
+            if (item.name == 'Backstage passes to a TAFKAL80ETC concert') {
+                if (item.quality < 50) {
+                    item.quality++;
 
-            if (item.sellIn < 0) {
-                if (item.name == 'Aged Brie') {
-                    this.updateBrieQuality(item);
-                    continue;
+                    if (item.sellIn < 11) {
+                        this.increaseQuality(item);
+                    }
+                    if (item.sellIn < 6) {
+                        this.increaseQuality(item);
+                    }
                 }
-                if (item.name != 'Backstage passes to a TAFKAL80ETC concert') {
-                    this.decreaseQuality(item);
-                } else {
+                if (item.sellIn < 0) {  // Sell date has passed
                     item.quality = 0;
                 }
+                continue;
+            }
+
+            // Not special item
+            this.decreaseQuality(item);
+            if (item.sellIn < 0) {  // Sell date has passed
+                this.decreaseQuality(item);
             }
         }
 
         return this.items;
     }
 
-    updateBrieQuality(item: Item) {
+    increaseQuality(item: Item) {
         if (item.quality < 50) {
             item.quality++;
         }
