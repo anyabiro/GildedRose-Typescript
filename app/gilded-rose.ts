@@ -52,10 +52,18 @@ export class GildedRose {
                 continue;
             }
 
+            if (item.name == 'Conjured Mana Cake') {
+                this.decreaseQuality(item, 2);
+                if (item.sellIn < 0) {
+                    this.decreaseQuality(item, 2);
+                }
+                continue;
+            }
+
             // Not special item
-            this.decreaseQuality(item);
+            this.decreaseQuality(item, 1);
             if (item.sellIn < 0) {  // Sell date has passed
-                this.decreaseQuality(item);
+                this.decreaseQuality(item, 1);
             }
         }
 
@@ -68,9 +76,9 @@ export class GildedRose {
         }
     }
 
-    decreaseQuality(item: Item) {
-        if (item.quality > 0) {
-            item.quality--;
+    decreaseQuality(item: Item, delta: number) {
+        if (item.quality >= delta) {
+            item.quality -= delta;
         }
     }
 }
