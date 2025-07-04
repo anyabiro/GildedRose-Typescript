@@ -56,14 +56,21 @@ describe('Unit tests', function () {
     });
 
     describe('Sulfuras, Hand of Ragnaros', function () {
-        it('Brie Quality increases normally', function() {
-            const gildedRose = new GildedRose([ new Item('Aged Brie', 1, 0) ]);
+        it('Sulfuras Quality and SellIn stay the same after one day', function() {
+            const gildedRose = new GildedRose([ new Item('Sulfuras, Hand of Ragnaros', 0, 80) ]);
             const items = gildedRose.updateQuality();
-            expect(items[0].quality).to.equal(1);
+            expect(items[0].quality).to.equal(80);
             expect(items[0].sellIn).to.equal(0);
         });
 
-
+        it('Sulfuras Quality and SellIn stay the same after three days', function() {
+            const gildedRose = new GildedRose([ new Item('Sulfuras, Hand of Ragnaros', 0, 80) ]);
+            gildedRose.updateQuality();
+            gildedRose.updateQuality();
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(80);
+            expect(items[0].sellIn).to.equal(0);
+        });
     });
 
 });
