@@ -151,4 +151,44 @@ describe('Unit tests', function () {
         });
     });
 
+    describe('Conjured Mana Cake', function () {
+        it('Conjured Cake Quality decreases twice as fast as normal items after one day', function() {
+            const gildedRose = new GildedRose([ new Item('Conjured Mana Cake', 1, 10) ]);
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(8);
+            expect(items[0].sellIn).to.equal(0);
+        });
+
+        it('Conjured Cake Quality decreases 4 times as fast as normal items after sell date', function() {
+            const gildedRose = new GildedRose([ new Item('Conjured Mana Cake', 0, 10) ]);
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(6);
+            expect(items[0].sellIn).to.equal(-1);
+        });
+
+        it('Conjured Cake Quality decreases after three days', function() {
+            const gildedRose = new GildedRose([ new Item('Conjured Mana Cake', 3, 10) ]);
+            gildedRose.updateQuality();
+            gildedRose.updateQuality();
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(4);
+            expect(items[0].sellIn).to.equal(0);
+        });
+
+        it('Conjured Cake Quality decreases 4 times as fast as normal items after three days after sell date', function() {
+            const gildedRose = new GildedRose([ new Item('Conjured Mana Cake', 0, 20) ]);
+            gildedRose.updateQuality();
+            gildedRose.updateQuality();
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(8);
+            expect(items[0].sellIn).to.equal(-3);
+        });
+
+        it('Conjured Cake Quality decrease stops at 0', function() {
+            const gildedRose = new GildedRose([ new Item('Conjured Mana Cake', 0, 2) ]);
+            const items = gildedRose.updateQuality();
+            expect(items[0].quality).to.equal(0);
+            expect(items[0].sellIn).to.equal(-1);
+        });
+    });
 });
