@@ -27,43 +27,23 @@ export class GildedRose {
 
             item.sellIn--;
 
-            if (item.name == 'Aged Brie') {
-                this.increaseQuality(item);
-                if (item.sellIn < 0) {  // Sell date has passed
-                    this.increaseQuality(item);
+            switch (item.name) {
+                case 'Aged Brie': {
+                    this.updateBrie(item);
+                    break;
                 }
-                continue;
-            }
-
-            if (item.name == 'Backstage passes to a TAFKAL80ETC concert') {
-                if (item.quality < 50) {
-                    item.quality++;
-
-                    if (item.sellIn < 11) {
-                        this.increaseQuality(item);
-                    }
-                    if (item.sellIn < 6) {
-                        this.increaseQuality(item);
-                    }
+                case 'Backstage passes to a TAFKAL80ETC concert': {
+                    this.updatePasses(item);
+                    break;
                 }
-                if (item.sellIn < 0) {  // Sell date has passed
-                    item.quality = 0;
+                case 'Conjured Mana Cake': {
+                    this.updateManaCake(item);
+                    break;
                 }
-                continue;
-            }
-
-            if (item.name == 'Conjured Mana Cake') {
-                this.decreaseQuality(item, 2);
-                if (item.sellIn < 0) {
-                    this.decreaseQuality(item, 2);
+                default: {
+                    this.updateNormalItem(item);
+                    break;
                 }
-                continue;
-            }
-
-            // Not special item
-            this.decreaseQuality(item, 1);
-            if (item.sellIn < 0) {  // Sell date has passed
-                this.decreaseQuality(item, 1);
             }
         }
 
@@ -76,9 +56,46 @@ export class GildedRose {
         }
     }
 
-    decreaseQuality(item: Item, delta: number) {
-        if (item.quality >= delta) {
-            item.quality -= delta;
+    decreaseQualityByAmount(item: Item, amount: number) {
+        if (item.quality >= amount) {
+            item.quality -= amount;
+        }
+    }
+
+    updateBrie(item: Item) {
+        this.increaseQuality(item);
+        if (item.sellIn < 0) {  // Sell date has passed
+            this.increaseQuality(item);
+        }
+    }
+
+    updatePasses(item: Item) {
+        if (item.quality < 50) {
+            item.quality++;
+
+            if (item.sellIn < 11) {
+                this.increaseQuality(item);
+            }
+            if (item.sellIn < 6) {
+                this.increaseQuality(item);
+            }
+        }
+        if (item.sellIn < 0) {  // Sell date has passed
+            item.quality = 0;
+        }
+    }
+
+    updateManaCake(item: Item) {
+        this.decreaseQualityByAmount(item, 2);
+        if (item.sellIn < 0) {
+            this.decreaseQualityByAmount(item, 2);
+        }
+    }
+
+    updateNormalItem(item: Item) {
+        this.decreaseQualityByAmount(item, 1);
+        if (item.sellIn < 0) {  // Sell date has passed
+            this.decreaseQualityByAmount(item, 1);
         }
     }
 }

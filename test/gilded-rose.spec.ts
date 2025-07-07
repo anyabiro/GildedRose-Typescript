@@ -152,7 +152,7 @@ describe('Unit tests', function () {
     });
 
     describe('Conjured Mana Cake', function () {
-        it('Conjured Cake Quality decreases after one day', function() {
+        it('Conjured Cake Quality decreases twice as fast as normal items after one day', function() {
             const gildedRose = new GildedRose([ new Item('Conjured Mana Cake', 1, 10) ]);
             const items = gildedRose.updateQuality();
             expect(items[0].quality).to.equal(8);
@@ -184,7 +184,7 @@ describe('Unit tests', function () {
             expect(items[0].sellIn).to.equal(-3);
         });
 
-        it('Conjured Cake Quality decrease stops at min', function() {
+        it('Conjured Cake Quality decrease stops at 0', function() {
             const gildedRose = new GildedRose([ new Item('Conjured Mana Cake', 0, 2) ]);
             const items = gildedRose.updateQuality();
             expect(items[0].quality).to.equal(0);
